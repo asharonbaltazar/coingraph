@@ -49,7 +49,7 @@ const Nav = () => {
   return (
     <div
       className={`h-7 ${
-        sidebar ? "px-3" : "px-3 md:px-8"
+        sidebar ? "px-6" : "px-8 md:px-10"
       } flex absolute top-4 z-10 md:z-0`}
     >
       <button

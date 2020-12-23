@@ -37,6 +37,7 @@ const CurrencySelect = ({
 
   return (
     <Select
+      className="z-20"
       ref={selectRef}
       placeholder={"Select a currency..."}
       value={selectValue}

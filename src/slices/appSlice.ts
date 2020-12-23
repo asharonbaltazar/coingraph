@@ -63,7 +63,7 @@ export const appSlice = createSlice({
           (addedCurrency) => currency.value !== addedCurrency.value
         )
       )[0];
-      const color = uniqolor.random({ saturation: 50, lightness: [70, 80] })
+      const color = uniqolor.random({ saturation: 30, lightness: [70, 80] })
         .color;
       const newGraphCurrency = {
         name,

@@ -26,9 +26,9 @@ const SelectCurrencies = ({ sidebar }: IProps) => {
   );
 
   return (
-    <div className="mt-10">
+    <div className="mt-4 mb-4">
       <h3
-        className={`px-2 pb-2 pt-4 text-white ${conditionalStyling} opacity-90 text-sm whitespace-nowrap sticky top-0 z-10 bg-gray-800`}
+        className={`pb-2 px-2 pt-4 text-white ${conditionalStyling} bg-gray-800 opacity-90 text-sm whitespace-nowrap sticky -top-1 z-10`}
       >
         {`Selected ${sidebar ? "currencies" : ""}`}
       </h3>
