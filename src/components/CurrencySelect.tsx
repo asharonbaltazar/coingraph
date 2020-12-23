@@ -5,13 +5,7 @@ import Select, { ValueType } from "react-select";
 
 interface IProps {
   methods: {
-    selectValue: ValueType<
-      { id?: string; label: string; value: string },
-      false
-    >;
-    setCurrencySelectValue: React.Dispatch<
-      React.SetStateAction<ValueType<{ label: string; value: string }, false>>
-    >;
+    selectValue: { label: string; value: string };
     setSelectDisplay: React.Dispatch<React.SetStateAction<boolean>>;
     dispatchMethod: ActionCreatorWithPayload<any, string>;
   };
@@ -19,19 +13,14 @@ interface IProps {
 }
 
 const CurrencySelect = ({
-  methods: {
-    selectValue,
-    setCurrencySelectValue,
-    setSelectDisplay,
-    dispatchMethod,
-  },
+  methods: { selectValue, setSelectDisplay, dispatchMethod },
   data,
 }: IProps) => {
   const dispatch = useDispatch();
   useEffect(() => {
     const selectRefInEffect = selectRef.current;
     // Focus on Select
-    selectRef.current?.focus();
+    selectRefInEffect?.focus();
     // Open Select's menu
     selectRefInEffect?.select.openMenu("first");
     // Hide the select upon closing the menu
@@ -41,7 +30,6 @@ const CurrencySelect = ({
   const selectChange = (
     value: ValueType<{ label: string; value: string }, false>
   ) => {
-    setCurrencySelectValue(value);
     dispatch(dispatchMethod({ value, selectValue }));
   };
   // useRef for select component
@@ -50,11 +38,13 @@ const CurrencySelect = ({
   return (
     <Select
       ref={selectRef}
-      defaultValue={selectValue}
+      placeholder={"Select a currency..."}
+      value={selectValue}
       onChange={(value) => selectChange(value)}
       options={data.map((element) => ({
         value: element.value,
         label: element.name,
+        symbol: element.symbol,
       }))}
     />
   );

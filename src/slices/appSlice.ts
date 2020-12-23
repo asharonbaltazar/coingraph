@@ -1,13 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
-import uniqid from "uniqid";
+import uniqolor from "uniqolor";
 
 interface InitialState {
   currencies: { name: string; value: string; symbol: string }[];
+  baseCurrency: { name: string; value: string } | {};
   addedCurrencies: {
-    id: string;
     name: string;
     value: string;
     symbol: string;
+    color: string;
   }[];
   sidebar: boolean;
 }
@@ -22,7 +23,7 @@ export const appSlice = createSlice({
       { name: "Canadian dollar", value: "cad", symbol: "$" },
       { name: "Chinese yuan renminbi", value: "cny", symbol: "¥" },
       { name: "Croatian kuna", value: "hrk", symbol: "kn" },
-      { name: "Czech koruna", value: "cny", symbol: "Kč" },
+      { name: "Czech koruna", value: "czk", symbol: "Kč" },
       { name: "Danish krone", value: "dkk", symbol: "kr" },
       { name: "European euro", value: "eur", symbol: "€" },
       { name: "Hong Kong dollar", value: "hkd", symbol: "HK$" },
@@ -48,6 +49,7 @@ export const appSlice = createSlice({
       { name: "Turkish lira", value: "try", symbol: "₺" },
       { name: "US dollar", value: "usd", symbol: "$" },
     ],
+    baseCurrency: {},
     addedCurrencies: [],
     sidebar: false,
   } as InitialState,
@@ -61,12 +63,38 @@ export const appSlice = createSlice({
           (addedCurrency) => currency.value !== addedCurrency.value
         )
       )[0];
-      const id = uniqid();
-      const newGraphCurrency = { id, name, value, symbol };
+      const color = uniqolor.random({ saturation: 50, lightness: [70, 80] })
+        .color;
+      const newGraphCurrency = {
+        name,
+        value,
+        symbol,
+        color,
+      };
       state.addedCurrencies.push(newGraphCurrency);
     },
-    changeSelectValue: (state, action) => {
+    deleteValueFromAddedCurrency: (state, action) => {
+      const filteredArray = state.addedCurrencies.filter(
+        (element) => element.value !== action.payload
+      );
+      state.addedCurrencies = filteredArray;
+    },
+    changeBaseCurrencyValue: (state, action) => {
+      const { value } = action.payload;
+      state.baseCurrency = value;
+    },
+    changeAddedCurrencyValue: (state, action) => {
       const { value, selectValue } = action.payload;
+      let foundIndex = state.addedCurrencies.findIndex(
+        (element) => element.value === selectValue.value
+      );
+      const color = state.addedCurrencies[foundIndex].color;
+      state.addedCurrencies.splice(foundIndex, 1, {
+        name: value.label,
+        value: value.value,
+        symbol: value.symbol,
+        color,
+      });
     },
   },
 });
@@ -74,6 +102,8 @@ export const appSlice = createSlice({
 export const {
   toggleSidebar,
   addCurrencyToGraph,
-  changeSelectValue,
+  deleteValueFromAddedCurrency,
+  changeBaseCurrencyValue,
+  changeAddedCurrencyValue,
 } = appSlice.actions;
 export default appSlice.reducer;

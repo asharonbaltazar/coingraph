@@ -47,7 +47,11 @@ const Nav = () => {
   const open = sidebar ? "text-white" : "text-black md:text-white";
 
   return (
-    <div className="h-7 px-3 flex absolute top-4 z-10 md:z-0">
+    <div
+      className={`h-7 ${
+        sidebar ? "px-3" : "px-3 md:px-8"
+      } flex absolute top-4 z-10 md:z-0`}
+    >
       <button
         className={`focus:outline-none ${open}`}
         onClick={() => dispatch(toggleSidebar())}
