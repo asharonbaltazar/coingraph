@@ -8,8 +8,8 @@ interface IProps {
 }
 
 const BaseCurrencyTab = ({ sidebar }: IProps) => {
-  const currencies = useSelector(
-    (state: RootState) => state.appSlice.currencies
+  const { currencies, baseCurrency } = useSelector(
+    (state: RootState) => state.appSlice
   );
 
   // Conditional styling
@@ -24,7 +24,7 @@ const BaseCurrencyTab = ({ sidebar }: IProps) => {
       </h3>
       {/* Base tab 👇 */}
       <MenuItem
-        value={{ label: "US dollar", value: "usd", symbol: "$" }}
+        value={baseCurrency}
         data={currencies}
         dispatchMethod={changeBaseCurrencyValue}
       />

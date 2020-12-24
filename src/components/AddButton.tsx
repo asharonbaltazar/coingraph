@@ -30,11 +30,7 @@ const AddButton = ({ sidebar }: IProps) => {
         onClick={() => !disabled && addCurrency()}
         disabled={disabled}
       >
-        <div
-          className={`h-10 w-10 text-xs px-2 font-bold rounded-full flex items-center justify-center bg-gray-800 ${
-            disabled ? "" : "md:group-hover:bg-gray-800"
-          }`}
-        >
+        <div className="h-10 w-10 text-xs px-2 font-bold rounded-full flex items-center justify-center bg-gray-800">
           <svg
             className="w-6 h-6 text-white"
             fill="none"

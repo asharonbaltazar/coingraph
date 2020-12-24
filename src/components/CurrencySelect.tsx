@@ -9,7 +9,7 @@ interface IProps {
     setSelectDisplay: React.Dispatch<React.SetStateAction<boolean>>;
     dispatchMethod: ActionCreatorWithPayload<any, string>;
   };
-  data: { name: string; value: string; symbol: string }[];
+  data: { label: string; value: string; symbol: string }[];
 }
 
 const CurrencySelect = ({
@@ -44,7 +44,7 @@ const CurrencySelect = ({
       onChange={(value) => selectChange(value)}
       options={data.map((element) => ({
         value: element.value,
-        label: element.name,
+        label: element.label,
         symbol: element.symbol,
       }))}
     />

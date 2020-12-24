@@ -25,6 +25,9 @@ const SelectCurrencies = ({ sidebar }: IProps) => {
     )
   );
 
+  // Length of addedCurrencies
+  const addedCurrenciesLength = addedCurrencies.length;
+
   return (
     <div className="mt-4 mb-4">
       <h3
@@ -40,12 +43,7 @@ const SelectCurrencies = ({ sidebar }: IProps) => {
               key={index}
             >
               <MenuItem
-                value={{
-                  label: element.name,
-                  value: element.value,
-                  symbol: element.symbol,
-                  color: element.color,
-                }}
+                value={element}
                 data={filteredCurrencies}
                 dispatchMethod={changeAddedCurrencyValue}
               />
@@ -53,6 +51,7 @@ const SelectCurrencies = ({ sidebar }: IProps) => {
                 deleteDispatchMethod={() =>
                   deleteValueFromAddedCurrency(element.value)
                 }
+                arrayLength={addedCurrenciesLength}
               />
             </div>
           ))}

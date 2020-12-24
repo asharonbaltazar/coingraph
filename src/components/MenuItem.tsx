@@ -8,7 +8,7 @@ import { ActionCreatorWithPayload } from "@reduxjs/toolkit";
 
 interface IProps {
   value: { label: string; value: string; symbol: string; color?: string };
-  data: { name: string; value: string; symbol: string }[];
+  data: { label: string; value: string; symbol: string }[];
   dispatchMethod: ActionCreatorWithPayload<any, string>;
 }
 const MenuItem = ({ value, data, dispatchMethod }: IProps) => {
@@ -26,7 +26,7 @@ const MenuItem = ({ value, data, dispatchMethod }: IProps) => {
   };
 
   const stateAndMethods = {
-    selectValue: { label: value.label, value: value.value },
+    selectValue: value,
     setSelectDisplay,
     dispatchMethod,
   };
@@ -53,7 +53,7 @@ const MenuItem = ({ value, data, dispatchMethod }: IProps) => {
             ) : (
               <div>
                 <h1 className="font-bold text-white text-right">
-                  {value?.label}
+                  {value.label}
                 </h1>
               </div>
             )}
