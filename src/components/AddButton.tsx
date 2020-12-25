@@ -1,15 +1,15 @@
+import { memo } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { toggleSidebar, addCurrencyToGraph } from "../slices/appSlice";
+import { addCurrencyToGraph } from "../slices/appSlice";
 import { RootState } from "../store";
 
 interface IProps {
   sidebar: boolean;
 }
 
-const AddButton = ({ sidebar }: IProps) => {
+const AddButton = memo(({ sidebar }: IProps) => {
   const dispatch = useDispatch();
   const addCurrency = () => {
-    !sidebar && dispatch(toggleSidebar());
     dispatch(addCurrencyToGraph());
   };
 
@@ -54,6 +54,6 @@ const AddButton = ({ sidebar }: IProps) => {
       </button>
     </div>
   );
-};
+});
 
 export default AddButton;

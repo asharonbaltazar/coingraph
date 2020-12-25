@@ -1,5 +1,8 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import axios from "axios";
 import randomColor from "randomcolor";
+import dayjs from "dayjs";
+import { RootState } from "../store";
 
 interface InitialState {
   currencies: { label: string; value: string; symbol: string }[];
@@ -10,8 +13,53 @@ interface InitialState {
     symbol: string;
     color: string;
   }[];
+  currencyApiData: {
+    date: string;
+    value: { [rate: string]: number };
+  }[];
+
   sidebar: boolean;
+  loading: boolean;
 }
+
+interface ApiResponse {
+  base: string;
+  end_at: string;
+  rates: {
+    [date: string]: number;
+  };
+  start_at: string;
+}
+
+export const getCurrencyRates = createAsyncThunk<
+  any,
+  void,
+  { state: RootState }
+>("app/getCurrencyRates", async (_, { getState, rejectWithValue }) => {
+  // Two variables for readibality: baseCurrency and today's date
+  const baseCurrency = getState().appSlice.baseCurrency.value.toUpperCase();
+  const today = dayjs().format("YYYY-MM-DD");
+
+  const apiResponse = await axios.get<ApiResponse>(
+    `https://api.exchangeratesapi.io/history?start_at=2020-01-01&end_at=${today}&base=${baseCurrency}`
+  );
+
+  // Reject if API call goes awry
+  if (typeof apiResponse.data === "string")
+    return rejectWithValue("An error has occured. Please try again later");
+
+  // Conversion of API object response to array (which will retain just the API object key)
+  // First, sort the objects by date (converted into a regular JS date),
+  // Then, using the date, map the API object values onto the new array
+  const formattedRateData = Object.keys(apiResponse.data.rates)
+    .sort((a, b) => Number(dayjs(a).toDate()) - Number(dayjs(b).toDate()))
+    .map((element) => ({
+      date: element,
+      value: apiResponse.data.rates[element],
+    }));
+
+  return formattedRateData;
+});
 
 export const appSlice = createSlice({
   name: "appslice",
@@ -58,7 +106,9 @@ export const appSlice = createSlice({
         color: "rgb(249, 152, 163)",
       },
     ],
+    currencyApiData: [],
     sidebar: false,
+    loading: false,
   } as InitialState,
   reducers: {
     toggleSidebar: (state) => {
@@ -85,6 +135,7 @@ export const appSlice = createSlice({
       }
     },
     deleteValueFromAddedCurrency: (state, action) => {
+      // Filter the deleted value in action.payload from the addedCurrencies array
       const filteredArray = state.addedCurrencies.filter(
         (element) => element.value !== action.payload
       );
@@ -92,14 +143,19 @@ export const appSlice = createSlice({
     },
     changeBaseCurrencyValue: (state, action) => {
       const { value } = action.payload;
+      // Base currency can only be one
       state.baseCurrency = value;
     },
     changeAddedCurrencyValue: (state, action) => {
+      // value is the old value (stored in state), selectValue is the new selected value
       const { value, selectValue } = action.payload;
+      // Find value's index sin the addedCurrencies
       let foundIndex = state.addedCurrencies.findIndex(
         (element) => element.value === selectValue.value
       );
+      // Retain the old value's color
       const color = state.addedCurrencies[foundIndex].color;
+      // Replace old value with new selected value in array
       state.addedCurrencies.splice(foundIndex, 1, {
         label: value.label,
         value: value.value,
@@ -107,6 +163,14 @@ export const appSlice = createSlice({
         color,
       });
     },
+  },
+  extraReducers(builders) {
+    builders.addCase(getCurrencyRates.pending, (state) => {
+      state.loading = true;
+    });
+    builders.addCase(getCurrencyRates.fulfilled, (state, action) => {
+      state.currencyApiData = action.payload;
+    });
   },
 });
 

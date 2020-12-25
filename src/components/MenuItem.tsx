@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { memo, useState } from "react";
 import CurrencyCircle from "./CurrencyCircle";
 import CurrencySelect from "./CurrencySelect";
 import { useDispatch, useSelector } from "react-redux";
@@ -11,7 +11,7 @@ interface IProps {
   data: { label: string; value: string; symbol: string }[];
   dispatchMethod: ActionCreatorWithPayload<any, string>;
 }
-const MenuItem = ({ value, data, dispatchMethod }: IProps) => {
+const MenuItem = memo(({ value, data, dispatchMethod }: IProps) => {
   const dispatch = useDispatch();
 
   // Select render state
@@ -52,7 +52,7 @@ const MenuItem = ({ value, data, dispatchMethod }: IProps) => {
               />
             ) : (
               <div>
-                <h1 className="font-bold text-white text-right">
+                <h1 className="font-bold text-white text-right truncate">
                   {value.label}
                 </h1>
               </div>
@@ -62,6 +62,6 @@ const MenuItem = ({ value, data, dispatchMethod }: IProps) => {
       )}
     </button>
   );
-};
+});
 
 export default MenuItem;

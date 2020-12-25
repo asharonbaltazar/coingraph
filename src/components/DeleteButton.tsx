@@ -12,7 +12,7 @@ const DeleteButton = ({ deleteDispatchMethod, arrayLength }: IProps) => {
       {/* addedCurrency array has to be more than one to delete an item */}
       {arrayLength > 1 && (
         <button
-          className="w-10 h-10 md:h-6 md:w-6 p-1 ml-2 md:ml-0 md:hidden md:group-hover:block md:absolute rounded-md md:rounded-full md:-top-2 md:-right-2 z-10 focus:outline-none md:border-2 md:border-white text-red-500 md:text-white bg-transparent md:bg-red-500"
+          className="w-10 h-10 md:h-6 md:w-6 p-1 ml-2 md:ml-0 md:hidden md:group-hover:block md:absolute rounded-md md:rounded-full md:-top-2 md:-right-2 focus:outline-none md:border-2 md:border-white text-red-500 md:text-white bg-transparent md:bg-red-500"
           onClick={() => dispatch(deleteDispatchMethod())}
         >
           <svg

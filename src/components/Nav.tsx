@@ -1,9 +1,10 @@
+import { memo } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { toggleSidebar } from "../slices/appSlice";
 import { RootState } from "../store";
 import SidebarHeader from "./SidebarHeader";
 
-const Nav = () => {
+const Nav = memo(() => {
   const sidebar = useSelector((state: RootState) => state.appSlice.sidebar);
   const dispatch = useDispatch();
 
@@ -44,13 +45,13 @@ const Nav = () => {
       );
   };
 
-  const open = sidebar ? "text-white" : "text-black md:text-white";
+  const open = sidebar ? "text-white" : "text-black lg:text-white";
 
   return (
     <div
       className={`h-7 ${
-        sidebar ? "px-6" : "px-8 md:px-10"
-      } flex absolute top-4 z-10 md:z-0`}
+        sidebar ? "px-6" : "px-8 lg:px-10"
+      } flex absolute top-4 z-30`}
     >
       <button
         className={`focus:outline-none ${open}`}
@@ -61,6 +62,6 @@ const Nav = () => {
       {sidebar && <SidebarHeader />}
     </div>
   );
-};
+});
 
 export default Nav;
