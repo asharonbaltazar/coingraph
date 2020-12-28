@@ -15,7 +15,7 @@ const App = () => {
     dispatch(getCurrencyRates());
   }, [dispatch, baseCurrency]);
   return (
-    <div className="h-full flex relative overflow-x-hidden">
+    <div className="h-full flex relative md:overflow-x-hidden">
       <Nav />
       <Sidebar />
       <Content />

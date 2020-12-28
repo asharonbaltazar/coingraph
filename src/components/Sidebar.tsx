@@ -9,12 +9,12 @@ const Sidebar = memo(() => {
   const sidebar = useSelector((state: RootState) => state.appSlice.sidebar);
 
   const open = sidebar
-    ? "w-full absolute lg:w-1/5 2xl:w-2/12 lg:static"
+    ? "w-full absolute lg:w-1/5 2xl:w-2/12 lg:relative"
     : "hidden lg:w-28 lg:flex";
 
   return (
     <div
-      className={`h-full pt-12 pb-2 flex flex-col flex-shrink-0 justify-between ${open} bg-gray-800 z-20`}
+      className={`h-full pt-12 pb-2 relative flex flex-col flex-shrink-0 justify-between ${open} bg-gray-800 z-20`}
     >
       <div className="h-full overflow-x-hidden px-4">
         <BaseCurrencyTab sidebar={sidebar} />

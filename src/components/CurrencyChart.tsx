@@ -1,21 +1,34 @@
-import { memo } from "react";
 import { ResponsiveLine } from "@nivo/line";
 import dayjs from "dayjs";
 import { useSelector } from "react-redux";
 import { RootState } from "../store";
 
-const CurrencyChart = memo(() => {
+const CurrencyChart = () => {
   const { addedCurrencies, currencyApiData, baseCurrency } = useSelector(
     (state: RootState) => state.appSlice
   );
+  // Define min/max for graph
+  let min = 0;
+  let max = 0;
 
-  const data = addedCurrencies.map((element) => ({
-    id: element.value.toUpperCase(),
-    color: element.color,
-    data: currencyApiData.map(({ date, value }) => ({
-      x: dayjs(date).format("YYYY-MM-DD") ?? null,
-      y: value[element.value.toUpperCase()].toFixed(3) ?? null,
-    })),
+  // Assign id, color, and data {x: date, y: rate} for the graph
+  const data = addedCurrencies.map(({ value, color, symbol }) => ({
+    id: `${value.toUpperCase()} (${symbol}):`,
+    color: color,
+    data: currencyApiData.map(({ date, value: apiValue }) => {
+      const rateInArray = apiValue[value.toUpperCase()];
+      const rateRounded =
+        Math.round((rateInArray + Number.EPSILON) * 100) / 100;
+      // Calculate min/max of currencyApiData
+      min = rateRounded;
+      min = Math.min(rateRounded, min);
+      max = Math.max(rateRounded, max);
+
+      return {
+        x: dayjs(date).format("YYYY-MM-DD") ?? null,
+        y: rateRounded ?? null,
+      };
+    }),
   }));
 
   const colors = addedCurrencies.map(({ color }) => color);
@@ -37,7 +50,7 @@ const CurrencyChart = memo(() => {
         max: "auto",
         reverse: false,
       }}
-      yFormat=" >-.2f"
+      yFormat={(value) => `${value}`}
       xFormat="time:%Y-%m-%d"
       enableArea={true}
       areaOpacity={0.2}
@@ -45,16 +58,16 @@ const CurrencyChart = memo(() => {
       axisRight={null}
       axisBottom={{
         format: "%b %d",
-        tickValues: 30,
+        tickValues: 40,
         tickRotation: -50,
       }}
       axisLeft={{
         orient: "left",
         tickSize: 5,
-        tickPadding: 5,
+        tickPadding: 0,
         tickRotation: 0,
-        legend: `${baseCurrency.symbol} ${baseCurrency.label}`,
-        legendOffset: -40,
+        legend: baseCurrency.label,
+        legendOffset: -45,
         legendPosition: "middle",
       }}
       enableGridX={false}
@@ -63,9 +76,9 @@ const CurrencyChart = memo(() => {
       lineWidth={3}
       enablePoints={false}
       useMesh={true}
-      animate={false}
+      animate={true}
     />
   );
-});
+};
 
 export default CurrencyChart;
