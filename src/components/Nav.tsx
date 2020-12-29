@@ -5,9 +5,7 @@ import { RootState, useAppDispatch } from "../store";
 import SidebarHeader from "./SidebarHeader";
 
 const Nav = memo(() => {
-  const { menuView, sidebar } = useSelector(
-    (state: RootState) => state.appSlice
-  );
+  const { menuView, sidebar } = useSelector((state: RootState) => state);
   const dispatch = useAppDispatch();
   const leftMargin = menuView ? "left-6" : "left-9";
   const iconVisibility = {

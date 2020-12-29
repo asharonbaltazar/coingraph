@@ -8,9 +8,7 @@ interface IProps {
 }
 
 const BaseCurrencyTab = ({ menuWidth }: IProps) => {
-  const { currencies, baseCurrency } = useSelector(
-    (state: RootState) => state.appSlice
-  );
+  const { currencies, baseCurrency } = useSelector((state: RootState) => state);
 
   // Conditional styling
   const conditionalStyling = menuWidth ? "" : "text-center";

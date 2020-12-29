@@ -9,7 +9,7 @@ import { RootState, useAppDispatch } from "./store";
 const App = () => {
   const dispatch = useAppDispatch();
   const { baseCurrency, sidebar, menuView } = useSelector(
-    (state: RootState) => state.appSlice
+    (state: RootState) => state
   );
   const scrolling = menuView
     ? "overflow-x-hidden"

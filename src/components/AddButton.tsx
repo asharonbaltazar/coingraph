@@ -17,7 +17,7 @@ const AddButton = memo(({ menuWidth }: IProps) => {
   const conditionalStyling = menuWidth ? "justify-between" : "justify-center";
   // Disable button upon selecting all currencies
   const { currencies, addedCurrencies } = useSelector(
-    (state: RootState) => state.appSlice
+    (state: RootState) => state
   );
   const disabled = currencies.length === addedCurrencies.length ? true : false;
 

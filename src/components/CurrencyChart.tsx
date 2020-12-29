@@ -6,7 +6,7 @@ import { RootState } from "../store";
 
 const CurrencyChart = () => {
   const { addedCurrencies, currencyApiData, baseCurrency } = useSelector(
-    (state: RootState) => state.appSlice
+    (state: RootState) => state
   );
   // Define min/max for graph
   let min = 0;

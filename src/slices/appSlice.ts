@@ -37,7 +37,7 @@ export const getCurrencyRates = createAsyncThunk<
   { state: RootState }
 >("app/getCurrencyRates", async (_, { getState, rejectWithValue }) => {
   // Two variables for readibality: baseCurrency and today's date
-  const baseCurrency = getState().appSlice.baseCurrency.value.toUpperCase();
+  const baseCurrency = getState().baseCurrency.value.toUpperCase();
   const today = dayjs().format("YYYY-MM-DD");
 
   const apiResponse = await axios.get<ApiResponse>(

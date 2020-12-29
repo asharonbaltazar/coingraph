@@ -16,7 +16,7 @@ const MenuItem = memo(({ value, data, dispatchMethod }: IProps) => {
 
   // Select render state
   const [selectDisplay, setSelectDisplay] = useState(false);
-  const menuView = useSelector((state: RootState) => state.appSlice.menuView);
+  const menuView = useSelector((state: RootState) => state.menuView);
   // Conditional styling
   const conditionalStyling = menuView ? "justify-between" : "justify-center";
   // Render select when the base tab is clicked on
