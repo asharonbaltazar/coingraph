@@ -8,15 +8,15 @@ import {
 import DeleteButton from "./DeleteButton";
 
 interface IProps {
-  sidebar: boolean;
+  menuWidth: boolean;
 }
 
-const SelectCurrencies = ({ sidebar }: IProps) => {
+const SelectCurrencies = ({ menuWidth }: IProps) => {
   const { addedCurrencies, currencies } = useSelector(
     (state: RootState) => state.appSlice
   );
   // Conditional styling
-  const conditionalStyling = sidebar ? "" : "text-center";
+  const conditionalStyling = menuWidth ? "" : "text-center";
 
   // Filtered dropdown based on amount of element in addedCurrencies
   const filteredCurrencies = currencies.filter((currency) =>
@@ -33,7 +33,7 @@ const SelectCurrencies = ({ sidebar }: IProps) => {
       <h3
         className={`pb-2 px-2 pt-4 text-white ${conditionalStyling} bg-gray-800 opacity-90 text-sm whitespace-nowrap`}
       >
-        {`Selected ${sidebar ? "currencies" : ""}`}
+        {`Selected ${menuWidth ? "currencies" : ""}`}
       </h3>
       <div className="flex flex-col justify-between">
         <>

@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
 import randomColor from "randomcolor";
 import dayjs from "dayjs";
@@ -17,7 +17,7 @@ interface InitialState {
     date: string;
     value: { [rate: string]: number };
   }[];
-
+  menuView: boolean;
   sidebar: boolean;
   loading: boolean;
 }
@@ -107,11 +107,18 @@ export const appSlice = createSlice({
       },
     ],
     currencyApiData: [],
-    sidebar: false,
+    menuView: false,
+    sidebar: true,
     loading: false,
   } as InitialState,
   reducers: {
-    toggleSidebar: (state) => {
+    toggleMenuWidth: (state, action: PayloadAction<boolean | undefined>) => {
+      action.payload
+        ? (state.menuView = action.payload)
+        : (state.menuView = !state.menuView);
+    },
+    toggleSidebarDisplay: (state) => {
+      state.menuView = false;
       state.sidebar = !state.sidebar;
     },
     addCurrencyToGraph: (state) => {
@@ -175,7 +182,8 @@ export const appSlice = createSlice({
 });
 
 export const {
-  toggleSidebar,
+  toggleMenuWidth,
+  toggleSidebarDisplay,
   addCurrencyToGraph,
   deleteValueFromAddedCurrency,
   changeBaseCurrencyValue,

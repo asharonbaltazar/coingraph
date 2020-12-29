@@ -4,17 +4,17 @@ import { addCurrencyToGraph } from "../slices/appSlice";
 import { RootState } from "../store";
 
 interface IProps {
-  sidebar: boolean;
+  menuWidth: boolean;
 }
 
-const AddButton = memo(({ sidebar }: IProps) => {
+const AddButton = memo(({ menuWidth }: IProps) => {
   const dispatch = useDispatch();
   const addCurrency = () => {
     dispatch(addCurrencyToGraph());
   };
 
   // Conditional styling
-  const conditionalStyling = sidebar ? "justify-between" : "justify-center";
+  const conditionalStyling = menuWidth ? "justify-between" : "justify-center";
   // Disable button upon selecting all currencies
   const { currencies, addedCurrencies } = useSelector(
     (state: RootState) => state.appSlice
@@ -46,7 +46,7 @@ const AddButton = memo(({ sidebar }: IProps) => {
             />
           </svg>
         </div>
-        {sidebar && (
+        {menuWidth && (
           <div className="w-5/6 md:w-4/6">
             <h1 className="font-bold text-white text-right">Add a currency</h1>
           </div>

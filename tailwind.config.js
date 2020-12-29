@@ -1,10 +1,15 @@
 module.exports = {
   theme: {
-    extend: {},
+    extend: {
+      width: {
+        graph: "300rem",
+      },
+    },
   },
   variants: {
     extend: {
-      display: ["group-hover"],
+      display: ["hover", "group-hover"],
+      width: ["hover"],
       opacity: ["disabled"],
       cursor: ["disabled"],
     },

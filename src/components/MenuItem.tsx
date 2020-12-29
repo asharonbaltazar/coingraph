@@ -2,7 +2,7 @@ import { memo, useState } from "react";
 import CurrencyCircle from "./CurrencyCircle";
 import CurrencySelect from "./CurrencySelect";
 import { useDispatch, useSelector } from "react-redux";
-import { toggleSidebar } from "../slices/appSlice";
+import { toggleMenuWidth } from "../slices/appSlice";
 import { RootState } from "../store";
 import { ActionCreatorWithPayload } from "@reduxjs/toolkit";
 
@@ -16,12 +16,12 @@ const MenuItem = memo(({ value, data, dispatchMethod }: IProps) => {
 
   // Select render state
   const [selectDisplay, setSelectDisplay] = useState(false);
-  const sidebar = useSelector((state: RootState) => state.appSlice.sidebar);
+  const menuView = useSelector((state: RootState) => state.appSlice.menuView);
   // Conditional styling
-  const conditionalStyling = sidebar ? "justify-between" : "justify-center";
+  const conditionalStyling = menuView ? "justify-between" : "justify-center";
   // Render select when the base tab is clicked on
   const renderSelect = () => {
-    !sidebar && dispatch(toggleSidebar());
+    !menuView && dispatch(toggleMenuWidth());
     setSelectDisplay(true);
   };
 
@@ -41,7 +41,7 @@ const MenuItem = memo(({ value, data, dispatchMethod }: IProps) => {
         color={value?.color || "#FFFF"}
       />
 
-      {sidebar && (
+      {menuView && (
         <div className="w-5/6 md:w-4/6">
           <>
             {selectDisplay ? (

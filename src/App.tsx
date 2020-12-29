@@ -8,16 +8,21 @@ import { RootState } from "./store";
 
 const App = () => {
   const dispatch = useDispatch();
-  const baseCurrency = useSelector(
-    (state: RootState) => state.appSlice.baseCurrency
+  const { baseCurrency, sidebar, menuView } = useSelector(
+    (state: RootState) => state.appSlice
   );
+  const scrolling = menuView
+    ? "overflow-x-hidden"
+    : "w-graph lg:overflow-x-hidden";
+
   useEffect(() => {
     dispatch(getCurrencyRates());
   }, [dispatch, baseCurrency]);
+
   return (
-    <div className="h-full flex relative md:overflow-x-hidden">
+    <div className={`h-full lg:w-screen flex relative ${scrolling}`}>
       <Nav />
-      <Sidebar />
+      {sidebar && <Sidebar />}
       <Content />
     </div>
   );

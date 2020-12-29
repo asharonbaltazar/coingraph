@@ -38,7 +38,6 @@ const CurrencySelect = memo(
 
     return (
       <Select
-        className="z-30"
         ref={selectRef}
         placeholder={"Select a currency..."}
         value={selectValue}

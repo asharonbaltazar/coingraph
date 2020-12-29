@@ -4,23 +4,23 @@ import { RootState } from "../store";
 import { changeBaseCurrencyValue } from "../slices/appSlice";
 
 interface IProps {
-  sidebar: boolean;
+  menuWidth: boolean;
 }
 
-const BaseCurrencyTab = ({ sidebar }: IProps) => {
+const BaseCurrencyTab = ({ menuWidth }: IProps) => {
   const { currencies, baseCurrency } = useSelector(
     (state: RootState) => state.appSlice
   );
 
   // Conditional styling
-  const conditionalStyling = sidebar ? "" : "text-center";
+  const conditionalStyling = menuWidth ? "" : "text-center";
 
   return (
     <div className="mt-4">
       <h3
         className={`px-2 pb-2 pt-4 text-white ${conditionalStyling} opacity-75 text-sm whitespace-nowrap`}
       >
-        {`Base ${sidebar ? "currency" : ""}`}
+        {`Base ${menuWidth ? "currency" : ""}`}
       </h3>
       {/* Base tab 👇 */}
       <MenuItem
