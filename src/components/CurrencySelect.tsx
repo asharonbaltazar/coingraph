@@ -1,6 +1,6 @@
 import { ActionCreatorWithPayload } from "@reduxjs/toolkit";
 import { memo, useEffect, useRef } from "react";
-import { useDispatch } from "react-redux";
+import { useAppDispatch } from "../store";
 import Select, { ValueType } from "react-select";
 
 interface IProps {
@@ -17,7 +17,7 @@ const CurrencySelect = memo(
     methods: { selectValue, setSelectDisplay, dispatchMethod },
     data,
   }: IProps) => {
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
     useEffect(() => {
       const selectRefInEffect = selectRef.current;
       // Focus on Select

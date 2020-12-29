@@ -1,14 +1,14 @@
 import { memo } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { addCurrencyToGraph } from "../slices/appSlice";
-import { RootState } from "../store";
+import { RootState, useAppDispatch } from "../store";
 
 interface IProps {
   menuWidth: boolean;
 }
 
 const AddButton = memo(({ menuWidth }: IProps) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const addCurrency = () => {
     dispatch(addCurrencyToGraph());
   };

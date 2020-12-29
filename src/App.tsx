@@ -2,12 +2,12 @@ import { useEffect } from "react";
 import Content from "./components/Content";
 import Nav from "./components/Nav";
 import Sidebar from "./components/Sidebar";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { getCurrencyRates } from "./slices/appSlice";
-import { RootState } from "./store";
+import { RootState, useAppDispatch } from "./store";
 
 const App = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const { baseCurrency, sidebar, menuView } = useSelector(
     (state: RootState) => state.appSlice
   );

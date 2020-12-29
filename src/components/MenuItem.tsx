@@ -1,9 +1,9 @@
 import { memo, useState } from "react";
 import CurrencyCircle from "./CurrencyCircle";
 import CurrencySelect from "./CurrencySelect";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { toggleMenuWidth } from "../slices/appSlice";
-import { RootState } from "../store";
+import { RootState, useAppDispatch } from "../store";
 import { ActionCreatorWithPayload } from "@reduxjs/toolkit";
 
 interface IProps {
@@ -12,7 +12,7 @@ interface IProps {
   dispatchMethod: ActionCreatorWithPayload<any, string>;
 }
 const MenuItem = memo(({ value, data, dispatchMethod }: IProps) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   // Select render state
   const [selectDisplay, setSelectDisplay] = useState(false);
