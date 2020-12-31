@@ -14,11 +14,10 @@ interface InitialState {
     color: string;
   }[];
   currencyApiData: {
-    [currency: string]: {
-      date: string;
-      value: { [rateType: string]: number };
-    }[];
-  };
+    date: string;
+    value: { [rateType: string]: number };
+  }[];
+
   menuView: boolean;
   sidebar: boolean;
   loading: boolean;
@@ -53,14 +52,12 @@ export const getCurrencyRates = createAsyncThunk<
   // Conversion of API object response to array (which will retain just the API object key)
   // First, sort the objects by date (converted into a regular JS date),
   // Then, using the date, map the API object values onto the new array
-  const formattedRateData = {
-    [baseCurrency]: Object.keys(apiResponse.data.rates)
-      .sort((a, b) => Number(dayjs(a).toDate()) - Number(dayjs(b).toDate()))
-      .map((element) => ({
-        date: element,
-        value: apiResponse.data.rates[element],
-      })),
-  };
+  const formattedRateData = Object.keys(apiResponse.data.rates)
+    .sort((a, b) => Number(dayjs(a).toDate()) - Number(dayjs(b).toDate()))
+    .map((element) => ({
+      date: element,
+      value: apiResponse.data.rates[element],
+    }));
 
   return formattedRateData;
 });
@@ -110,7 +107,7 @@ export const appSlice = createSlice({
         color: "rgb(249, 152, 163)",
       },
     ],
-    currencyApiData: {},
+    currencyApiData: [],
     menuView: false,
     sidebar: true,
     loading: false,
@@ -153,9 +150,9 @@ export const appSlice = createSlice({
       state.addedCurrencies = filteredArray;
     },
     changeBaseCurrencyValue: (state, action) => {
-      const { value } = action.payload;
+      const { value, symbol, label } = action.payload;
       // Base currency can only be one
-      state.baseCurrency = value;
+      state.baseCurrency = { value, symbol, label };
     },
     changeAddedCurrencyValue: (state, action) => {
       // value is the old value (stored in state), selectValue is the new selected value
@@ -183,7 +180,7 @@ export const appSlice = createSlice({
       state.loading = true;
     });
     builders.addCase(getCurrencyRates.fulfilled, (state, action) => {
-      state.currencyApiData = { ...state.currencyApiData, ...action.payload };
+      state.currencyApiData = action.payload;
       state.loading = false;
     });
   },

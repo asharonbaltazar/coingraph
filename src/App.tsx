@@ -19,8 +19,8 @@ const App = () => {
     <div className="h-full lg:w-screen flex relative overflow-x-hidden">
       <Nav />
       {sidebar && <Sidebar />}
-      <div className={`w-graph ${graphWidth} lg:mb-4`}>
-        {/* <CurrencyChart /> */}
+      <div className={`w-graph ${graphWidth} lg:my-4`}>
+        <CurrencyChart />
       </div>
     </div>
   );
