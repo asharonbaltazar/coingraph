@@ -5,7 +5,7 @@ import Select, { ValueType } from "react-select";
 
 interface IProps {
   methods: {
-    selectValue: { label: string; value: string };
+    oldValue: { label: string; value: string };
     setSelectDisplay: React.Dispatch<React.SetStateAction<boolean>>;
     dispatchMethod: ActionCreatorWithPayload<any, string>;
   };
@@ -14,7 +14,7 @@ interface IProps {
 
 const CurrencySelect = memo(
   ({
-    methods: { selectValue, setSelectDisplay, dispatchMethod },
+    methods: { oldValue, setSelectDisplay, dispatchMethod },
     data,
   }: IProps) => {
     const dispatch = useAppDispatch();
@@ -29,9 +29,9 @@ const CurrencySelect = memo(
     }, [setSelectDisplay]);
     // Handling select change — setting CurrencyCircle value
     const selectChange = (
-      value: ValueType<{ label: string; value: string }, false>
+      newValue: ValueType<{ label: string; value: string }, false>
     ) => {
-      dispatch(dispatchMethod({ value, selectValue }));
+      dispatch(dispatchMethod({ ...newValue, oldValue: oldValue.value }));
     };
     // useRef for select component
     const selectRef = useRef<Select>(null);
@@ -40,7 +40,7 @@ const CurrencySelect = memo(
       <Select
         ref={selectRef}
         placeholder={"Select a currency..."}
-        value={selectValue}
+        value={oldValue}
         onChange={(value) => selectChange(value)}
         options={data.map((element) => ({
           value: element.value,

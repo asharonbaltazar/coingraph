@@ -25,7 +25,7 @@ const AddButton = memo(({ menuWidth }: IProps) => {
     <div className="w-full pt-2 px-4">
       <button
         className={`w-full flex items-center ${conditionalStyling} disabled:opacity-50 disabled:cursor-default bg-indigo-400 px-2 py-4 rounded-xl focus:outline-none group ${
-          disabled ? "" : "md:hover:opacity-80"
+          disabled ? "" : "md:hover:bg-opacity-80"
         }`}
         onClick={() => !disabled && addCurrency()}
         disabled={disabled}

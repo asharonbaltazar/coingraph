@@ -1,29 +1,27 @@
 import { useEffect } from "react";
-import Content from "./components/Content";
 import Nav from "./components/Nav";
 import Sidebar from "./components/Sidebar";
 import { useSelector } from "react-redux";
 import { getCurrencyRates } from "./slices/appSlice";
 import { RootState, useAppDispatch } from "./store";
+import CurrencyChart from "./components/CurrencyChart";
 
 const App = () => {
   const dispatch = useAppDispatch();
-  const { baseCurrency, sidebar, menuView } = useSelector(
-    (state: RootState) => state
-  );
-  const scrolling = menuView
-    ? "overflow-x-hidden"
-    : "w-graph lg:overflow-x-hidden";
+  const { baseCurrency, sidebar } = useSelector((state: RootState) => state);
+  const graphWidth = sidebar ? "lg:w-11/12" : "lg:w-12/12";
 
   useEffect(() => {
     dispatch(getCurrencyRates());
   }, [dispatch, baseCurrency]);
 
   return (
-    <div className={`h-full lg:w-screen flex relative ${scrolling}`}>
+    <div className="h-full lg:w-screen flex relative overflow-x-hidden">
       <Nav />
       {sidebar && <Sidebar />}
-      <Content />
+      <div className={`w-graph ${graphWidth} lg:mb-4`}>
+        {/* <CurrencyChart /> */}
+      </div>
     </div>
   );
 };

@@ -26,7 +26,7 @@ const MenuItem = memo(({ value, data, dispatchMethod }: IProps) => {
   };
 
   const stateAndMethods = {
-    selectValue: value,
+    oldValue: value,
     setSelectDisplay,
     dispatchMethod,
   };

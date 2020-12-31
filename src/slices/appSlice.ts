@@ -14,9 +14,11 @@ interface InitialState {
     color: string;
   }[];
   currencyApiData: {
-    date: string;
-    value: { [rate: string]: number };
-  }[];
+    [currency: string]: {
+      date: string;
+      value: { [rateType: string]: number };
+    }[];
+  };
   menuView: boolean;
   sidebar: boolean;
   loading: boolean;
@@ -51,12 +53,14 @@ export const getCurrencyRates = createAsyncThunk<
   // Conversion of API object response to array (which will retain just the API object key)
   // First, sort the objects by date (converted into a regular JS date),
   // Then, using the date, map the API object values onto the new array
-  const formattedRateData = Object.keys(apiResponse.data.rates)
-    .sort((a, b) => Number(dayjs(a).toDate()) - Number(dayjs(b).toDate()))
-    .map((element) => ({
-      date: element,
-      value: apiResponse.data.rates[element],
-    }));
+  const formattedRateData = {
+    [baseCurrency]: Object.keys(apiResponse.data.rates)
+      .sort((a, b) => Number(dayjs(a).toDate()) - Number(dayjs(b).toDate()))
+      .map((element) => ({
+        date: element,
+        value: apiResponse.data.rates[element],
+      })),
+  };
 
   return formattedRateData;
 });
@@ -106,7 +110,7 @@ export const appSlice = createSlice({
         color: "rgb(249, 152, 163)",
       },
     ],
-    currencyApiData: [],
+    currencyApiData: {},
     menuView: false,
     sidebar: true,
     loading: false,
@@ -155,28 +159,32 @@ export const appSlice = createSlice({
     },
     changeAddedCurrencyValue: (state, action) => {
       // value is the old value (stored in state), selectValue is the new selected value
-      const { value, selectValue } = action.payload;
+      const { label, value, symbol, oldValue } = action.payload;
       // Find value's index sin the addedCurrencies
       let foundIndex = state.addedCurrencies.findIndex(
-        (element) => element.value === selectValue.value
+        (element) => element.value === oldValue
       );
       // Retain the old value's color
       const color = state.addedCurrencies[foundIndex].color;
       // Replace old value with new selected value in array
       state.addedCurrencies.splice(foundIndex, 1, {
-        label: value.label,
-        value: value.value,
-        symbol: value.symbol,
+        label,
+        value,
+        symbol,
         color,
       });
     },
   },
   extraReducers(builders) {
+    builders.addCase(getCurrencyRates.rejected, (state) => {
+      state.loading = false;
+    });
     builders.addCase(getCurrencyRates.pending, (state) => {
       state.loading = true;
     });
     builders.addCase(getCurrencyRates.fulfilled, (state, action) => {
-      state.currencyApiData = action.payload;
+      state.currencyApiData = { ...state.currencyApiData, ...action.payload };
+      state.loading = false;
     });
   },
 });

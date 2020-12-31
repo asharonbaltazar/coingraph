@@ -15,19 +15,23 @@ const CurrencyChart = () => {
   // Assign id, color, and data {x: date, y: rate} for the graph
   const data = addedCurrencies.map(({ value, symbol }) => ({
     id: `${value.toUpperCase()} (${symbol}):`,
-    data: currencyApiData.map(({ date, value: apiValue }) => {
-      const rateInArray = apiValue[value.toUpperCase()];
-      const rateRounded =
-        Math.round((rateInArray + Number.EPSILON) * 100) / 100;
-      // Calculate min/max of currencyApiData
-      if (min === 0) min = rateRounded;
-      min = Math.min(rateRounded, min);
-      max = Math.max(rateRounded, max);
-      return {
-        x: dayjs(date).format("YYYY-MM-DD") ?? null,
-        y: rateRounded ?? null,
-      };
-    }),
+    data: currencyApiData[baseCurrency.value.toUpperCase()].map(
+      ({ date, value: apiValue }) => {
+        const rateInArray = apiValue[value.toUpperCase()];
+        const rateRounded =
+          Math.round((rateInArray + Number.EPSILON) * 100) / 100;
+
+        // Calculate min/max of currencyApiData
+        if (min === 0) min = rateRounded;
+        min = Math.min(rateRounded, min);
+        max = Math.max(rateRounded, max);
+
+        return {
+          x: dayjs(date).format("YYYY-MM-DD") ?? null,
+          y: rateRounded ?? null,
+        };
+      }
+    ),
   }));
 
   const colors = useMemo(() => addedCurrencies.map(({ color }) => color), [
