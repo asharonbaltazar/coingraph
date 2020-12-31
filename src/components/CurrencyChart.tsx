@@ -6,7 +6,7 @@ import { RootState } from "../store";
 
 const CurrencyChart = () => {
   const { addedCurrencies, currencyApiData, baseCurrency } = useSelector(
-    (state: RootState) => state.appSlice
+    (state: RootState) => state
   );
   // Define min/max for graph
   let min = 0;
@@ -15,14 +15,16 @@ const CurrencyChart = () => {
   // Assign id, color, and data {x: date, y: rate} for the graph
   const data = addedCurrencies.map(({ value, symbol }) => ({
     id: `${value.toUpperCase()} (${symbol}):`,
-    data: currencyApiData.map(({ date, value: apiValue }) => {
-      const rateInArray = apiValue[value.toUpperCase()];
+    data: currencyApiData.map(({ date, value: rateValue }) => {
+      const rateInArray = rateValue[value.toUpperCase()];
       const rateRounded =
         Math.round((rateInArray + Number.EPSILON) * 100) / 100;
+
       // Calculate min/max of currencyApiData
       if (min === 0) min = rateRounded;
       min = Math.min(rateRounded, min);
       max = Math.max(rateRounded, max);
+
       return {
         x: dayjs(date).format("YYYY-MM-DD") ?? null,
         y: rateRounded ?? null,

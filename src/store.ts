@@ -1,16 +1,10 @@
-import { combineReducers, configureStore } from "@reduxjs/toolkit";
+import { configureStore } from "@reduxjs/toolkit";
 import { useDispatch } from "react-redux";
 import appSlice from "./slices/appSlice";
 
-const reducers = combineReducers({
-  appSlice,
+export const store = configureStore({
+  reducer: appSlice,
 });
-
-const store = configureStore({
-  reducer: reducers,
-});
-
-export default store;
 
 // Type definitions
 export type AppDispatch = typeof store.dispatch;

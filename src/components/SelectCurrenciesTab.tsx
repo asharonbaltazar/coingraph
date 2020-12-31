@@ -13,7 +13,7 @@ interface IProps {
 
 const SelectCurrencies = ({ menuWidth }: IProps) => {
   const { addedCurrencies, currencies } = useSelector(
-    (state: RootState) => state.appSlice
+    (state: RootState) => state
   );
   // Conditional styling
   const conditionalStyling = menuWidth ? "" : "text-center";

@@ -1,12 +1,11 @@
-import { useDispatch } from "react-redux";
-
+import { useAppDispatch } from "../store";
 interface IProps {
   deleteDispatchMethod: () => { payload: any; type: string };
   arrayLength: number;
 }
 
 const DeleteButton = ({ deleteDispatchMethod, arrayLength }: IProps) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   return (
     <>
       {/* addedCurrency array has to be more than one to delete an item */}

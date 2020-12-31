@@ -15,8 +15,9 @@ interface InitialState {
   }[];
   currencyApiData: {
     date: string;
-    value: { [rate: string]: number };
+    value: { [rateType: string]: number };
   }[];
+
   menuView: boolean;
   sidebar: boolean;
   loading: boolean;
@@ -37,7 +38,7 @@ export const getCurrencyRates = createAsyncThunk<
   { state: RootState }
 >("app/getCurrencyRates", async (_, { getState, rejectWithValue }) => {
   // Two variables for readibality: baseCurrency and today's date
-  const baseCurrency = getState().appSlice.baseCurrency.value.toUpperCase();
+  const baseCurrency = getState().baseCurrency.value.toUpperCase();
   const today = dayjs().format("YYYY-MM-DD");
 
   const apiResponse = await axios.get<ApiResponse>(
@@ -149,34 +150,38 @@ export const appSlice = createSlice({
       state.addedCurrencies = filteredArray;
     },
     changeBaseCurrencyValue: (state, action) => {
-      const { value } = action.payload;
+      const { value, symbol, label } = action.payload;
       // Base currency can only be one
-      state.baseCurrency = value;
+      state.baseCurrency = { value, symbol, label };
     },
     changeAddedCurrencyValue: (state, action) => {
       // value is the old value (stored in state), selectValue is the new selected value
-      const { value, selectValue } = action.payload;
+      const { label, value, symbol, oldValue } = action.payload;
       // Find value's index sin the addedCurrencies
       let foundIndex = state.addedCurrencies.findIndex(
-        (element) => element.value === selectValue.value
+        (element) => element.value === oldValue
       );
       // Retain the old value's color
       const color = state.addedCurrencies[foundIndex].color;
       // Replace old value with new selected value in array
       state.addedCurrencies.splice(foundIndex, 1, {
-        label: value.label,
-        value: value.value,
-        symbol: value.symbol,
+        label,
+        value,
+        symbol,
         color,
       });
     },
   },
   extraReducers(builders) {
+    builders.addCase(getCurrencyRates.rejected, (state) => {
+      state.loading = false;
+    });
     builders.addCase(getCurrencyRates.pending, (state) => {
       state.loading = true;
     });
     builders.addCase(getCurrencyRates.fulfilled, (state, action) => {
       state.currencyApiData = action.payload;
+      state.loading = false;
     });
   },
 });

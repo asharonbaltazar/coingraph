@@ -1,14 +1,14 @@
 import { memo } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { addCurrencyToGraph } from "../slices/appSlice";
-import { RootState } from "../store";
+import { RootState, useAppDispatch } from "../store";
 
 interface IProps {
   menuWidth: boolean;
 }
 
 const AddButton = memo(({ menuWidth }: IProps) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const addCurrency = () => {
     dispatch(addCurrencyToGraph());
   };
@@ -17,7 +17,7 @@ const AddButton = memo(({ menuWidth }: IProps) => {
   const conditionalStyling = menuWidth ? "justify-between" : "justify-center";
   // Disable button upon selecting all currencies
   const { currencies, addedCurrencies } = useSelector(
-    (state: RootState) => state.appSlice
+    (state: RootState) => state
   );
   const disabled = currencies.length === addedCurrencies.length ? true : false;
 
@@ -25,7 +25,7 @@ const AddButton = memo(({ menuWidth }: IProps) => {
     <div className="w-full pt-2 px-4">
       <button
         className={`w-full flex items-center ${conditionalStyling} disabled:opacity-50 disabled:cursor-default bg-indigo-400 px-2 py-4 rounded-xl focus:outline-none group ${
-          disabled ? "" : "md:hover:opacity-80"
+          disabled ? "" : "md:hover:bg-opacity-80"
         }`}
         onClick={() => !disabled && addCurrency()}
         disabled={disabled}

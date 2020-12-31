@@ -1,14 +1,12 @@
 import { memo } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { toggleMenuWidth, toggleSidebarDisplay } from "../slices/appSlice";
-import { RootState } from "../store";
+import { RootState, useAppDispatch } from "../store";
 import SidebarHeader from "./SidebarHeader";
 
 const Nav = memo(() => {
-  const { menuView, sidebar } = useSelector(
-    (state: RootState) => state.appSlice
-  );
-  const dispatch = useDispatch();
+  const { menuView, sidebar } = useSelector((state: RootState) => state);
+  const dispatch = useAppDispatch();
   const leftMargin = menuView ? "left-6" : "left-9";
   const iconVisibility = {
     row: sidebar ? "block lg:hidden lg:group-hover:flex" : "flex",
