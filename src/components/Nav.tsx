@@ -7,7 +7,7 @@ const Nav = memo(() => {
   const { menuView, sidebar } = useSelector((state: RootState) => state);
   const dispatch = useAppDispatch();
   const leftMargin = menuView
-    ? "lg:w-48 flex items-center pl-6 items-center lg:justify-start"
+    ? "lg:w-48 flex items-center pl-5 items-center lg:justify-start"
     : "lg:w-24 pl-4 justify-center";
   const iconVisibility = {
     row: sidebar
