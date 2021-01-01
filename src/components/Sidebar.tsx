@@ -14,7 +14,7 @@ const Sidebar = memo(() => {
 
   return (
     <div
-      className={`h-full pt-12 pb-2 relative flex flex-col flex-shrink-0 justify-between ${open} bg-gray-800 z-20`}
+      className={`h-full pt-12 pb-2 relative flex flex-col flex-shrink-0 justify-between ${open} lg:relative bg-gray-800 z-20`}
     >
       <div className="h-full overflow-x-hidden px-4">
         <BaseCurrencyTab menuWidth={menuWidth} />

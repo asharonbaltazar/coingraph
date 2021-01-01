@@ -2,14 +2,17 @@ import { memo } from "react";
 import { useSelector } from "react-redux";
 import { toggleMenuWidth, toggleSidebarDisplay } from "../slices/appSlice";
 import { RootState, useAppDispatch } from "../store";
-import SidebarHeader from "./SidebarHeader";
 
 const Nav = memo(() => {
   const { menuView, sidebar } = useSelector((state: RootState) => state);
   const dispatch = useAppDispatch();
-  const leftMargin = menuView ? "left-6" : "left-9";
+  const leftMargin = menuView
+    ? "lg:w-48 flex items-center pl-6 items-center lg:justify-start"
+    : "lg:w-24 pl-4 justify-center";
   const iconVisibility = {
-    row: sidebar ? "block lg:hidden lg:group-hover:flex" : "flex",
+    row: sidebar
+      ? "block lg:hidden lg:group-hover:flex absolute rounded-full bg-indigo-400 lg:left-4"
+      : "flex",
     menuIcon: sidebar ? "hidden lg:block lg:group-hover:hidden" : "hidden",
   };
 
@@ -61,8 +64,8 @@ const Nav = memo(() => {
   };
 
   return (
-    <div className={`${leftMargin} flex items-center absolute top-4 z-30`}>
-      <div className="h-10 w-10 lg:hover:w-auto text-xs rounded-full flex items-center justify-center bg-indigo-400 font-bold text-bg-gray-800 group">
+    <div className={`${leftMargin} flex py-4 absolute z-30`}>
+      <div className="h-10 w-10 py-4 lg:hover:w-auto text-xs rounded-full flex items-center justify-center bg-indigo-400 font-bold text-bg-gray-800 group">
         <div className={iconVisibility.menuIcon}>
           <svg
             className="w-6 h-6"
@@ -126,7 +129,6 @@ const Nav = memo(() => {
           </button>
         </div>
       </div>
-      {menuView && <SidebarHeader />}
     </div>
   );
 });

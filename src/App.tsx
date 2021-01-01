@@ -8,18 +8,23 @@ import CurrencyChart from "./components/CurrencyChart";
 
 const App = () => {
   const dispatch = useAppDispatch();
-  const { baseCurrency, sidebar } = useSelector((state: RootState) => state);
-  const graphWidth = sidebar ? "lg:w-11/12" : "lg:w-12/12";
+  const { baseCurrency, sidebar, menuView } = useSelector(
+    (state: RootState) => state
+  );
+  const styles = {
+    graphWidth: sidebar ? "w-full lg:w-11/12" : "w-graph lg:w-full",
+    overflow: menuView ? "overflow-x-hidden" : "w-graph",
+  };
 
   useEffect(() => {
     dispatch(getCurrencyRates());
   }, [dispatch, baseCurrency]);
 
   return (
-    <div className="h-full lg:w-screen flex relative overflow-x-hidden">
+    <div className={`h-full lg:w-screen flex relative ${styles.overflow} `}>
       <Nav />
       {sidebar && <Sidebar />}
-      <div className={`w-graph ${graphWidth} lg:my-4`}>
+      <div className={`${styles.graphWidth} lg:py-4 pl-4`}>
         <CurrencyChart />
       </div>
     </div>
