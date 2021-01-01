@@ -1,11 +1,13 @@
 import MenuItem from "./MenuItem";
+import DeleteButton from "./DeleteButton";
+import CurrencyCircle from "./CurrencyCircle";
+import CurrencySelect from "./CurrencySelect";
 import { useSelector } from "react-redux";
 import { RootState } from "../store";
 import {
   changeAddedCurrencyValue,
   deleteValueFromAddedCurrency,
 } from "../slices/appSlice";
-import DeleteButton from "./DeleteButton";
 
 interface IProps {
   menuWidth: boolean;
@@ -42,11 +44,20 @@ const SelectCurrencies = ({ menuWidth }: IProps) => {
               className="relative group flex md:inline-block items-center"
               key={index}
             >
-              <MenuItem
-                value={element}
-                data={filteredCurrencies}
-                dispatchMethod={changeAddedCurrencyValue}
-              />
+              <MenuItem labelValue={element.label ?? ""}>
+                <CurrencyCircle
+                  currencyValue={element.value ?? ""}
+                  color={element.color}
+                />
+                <CurrencySelect
+                  key={element.value}
+                  methods={{
+                    oldValue: element,
+                    dispatchMethod: changeAddedCurrencyValue,
+                  }}
+                  data={filteredCurrencies}
+                />
+              </MenuItem>
               <DeleteButton
                 deleteDispatchMethod={() =>
                   deleteValueFromAddedCurrency(element.value)

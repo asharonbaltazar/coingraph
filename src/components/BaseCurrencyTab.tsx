@@ -1,4 +1,6 @@
 import MenuItem from "./MenuItem";
+import CurrencyCircle from "./CurrencyCircle";
+import CurrencySelect from "./CurrencySelect";
 import { useSelector } from "react-redux";
 import { RootState } from "../store";
 import { changeBaseCurrencyValue } from "../slices/appSlice";
@@ -9,7 +11,6 @@ interface IProps {
 
 const BaseCurrencyTab = ({ menuWidth }: IProps) => {
   const { currencies, baseCurrency } = useSelector((state: RootState) => state);
-
   // Conditional styling
   const conditionalStyling = menuWidth ? "" : "text-center";
 
@@ -20,12 +21,22 @@ const BaseCurrencyTab = ({ menuWidth }: IProps) => {
       >
         {`Base ${menuWidth ? "currency" : ""}`}
       </h3>
+
       {/* Base tab 👇 */}
-      <MenuItem
-        value={baseCurrency}
-        data={currencies}
-        dispatchMethod={changeBaseCurrencyValue}
-      />
+      <MenuItem labelValue={baseCurrency.label ?? ""}>
+        <CurrencyCircle
+          currencyValue={baseCurrency.value ?? ""}
+          color={"#FFFF"}
+        />
+        <CurrencySelect
+          key={baseCurrency?.value}
+          methods={{
+            oldValue: baseCurrency,
+            dispatchMethod: changeBaseCurrencyValue,
+          }}
+          data={currencies}
+        />
+      </MenuItem>
     </div>
   );
 };

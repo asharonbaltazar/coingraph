@@ -1,22 +1,21 @@
-import { memo, useState } from "react";
-import CurrencyCircle from "./CurrencyCircle";
-import CurrencySelect from "./CurrencySelect";
+import { memo, useState, ReactNode, Children, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { toggleMenuWidth } from "../slices/appSlice";
 import { RootState, useAppDispatch } from "../store";
-import { ActionCreatorWithPayload } from "@reduxjs/toolkit";
-
 interface IProps {
-  value: { label: string; value: string; symbol: string; color?: string };
-  data: { label: string; value: string; symbol: string }[];
-  dispatchMethod: ActionCreatorWithPayload<any, string>;
+  labelValue: string;
+  children: ReactNode;
 }
-const MenuItem = memo(({ value, data, dispatchMethod }: IProps) => {
-  const dispatch = useAppDispatch();
 
+const MenuItem = ({ labelValue, children }: IProps) => {
+  const dispatch = useAppDispatch();
+  const menuView = useSelector((state: RootState) => state.menuView);
   // Select render state
   const [selectDisplay, setSelectDisplay] = useState(false);
-  const menuView = useSelector((state: RootState) => state.menuView);
+  useEffect(() => {
+    // Clean up and hide the select
+    if (!menuView) return setSelectDisplay(false);
+  }, [setSelectDisplay, menuView]);
   // Conditional styling
   const conditionalStyling = menuView ? "justify-between" : "justify-center";
   // Render select when the base tab is clicked on
@@ -25,43 +24,30 @@ const MenuItem = memo(({ value, data, dispatchMethod }: IProps) => {
     setSelectDisplay(true);
   };
 
-  const stateAndMethods = {
-    oldValue: value,
-    setSelectDisplay,
-    dispatchMethod,
-  };
+  // Split the children into an array
+  const reactChildren = Children.toArray(children);
 
   return (
     <button
       className={`w-full flex items-center ${conditionalStyling} px-2 py-4 md:hover:bg-gray-700 focus:outline-none rounded-xl`}
       onClick={() => renderSelect()}
     >
-      <CurrencyCircle
-        currencyValue={value?.value || ""}
-        color={value?.color || "#FFFF"}
-      />
-
+      {reactChildren[0]}
       {menuView && (
         <div className="w-5/6 md:w-4/6">
           <>
             {selectDisplay ? (
-              <CurrencySelect
-                key={value?.value}
-                methods={stateAndMethods}
-                data={data}
-              />
+              reactChildren[1]
             ) : (
-              <div>
-                <h1 className="font-bold text-white text-right truncate">
-                  {value.label}
-                </h1>
-              </div>
+              <h1 className="font-bold text-white text-right truncate">
+                {labelValue}
+              </h1>
             )}
           </>
         </div>
       )}
     </button>
   );
-});
+};
 
-export default MenuItem;
+export default memo(MenuItem);

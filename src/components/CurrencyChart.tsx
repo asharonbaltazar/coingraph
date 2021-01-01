@@ -62,7 +62,7 @@ const CurrencyChart = () => {
       axisRight={null}
       axisBottom={{
         format: "%b %d",
-        tickValues: 25,
+        tickValues: 30,
         tickRotation: -50,
       }}
       axisLeft={{
