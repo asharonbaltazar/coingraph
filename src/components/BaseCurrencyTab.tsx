@@ -1,3 +1,4 @@
+import { memo } from "react";
 import MenuItem from "./MenuItem";
 import CurrencyCircle from "./CurrencyCircle";
 import CurrencySelect from "./CurrencySelect";
@@ -29,10 +30,8 @@ const BaseCurrencyTab = () => {
         />
         <CurrencySelect
           key={baseCurrency?.value}
-          methods={{
-            oldValue: baseCurrency,
-            dispatchMethod: changeBaseCurrencyValue,
-          }}
+          oldValue={baseCurrency}
+          dispatchMethod={changeBaseCurrencyValue}
           data={currencies}
         />
       </MenuItem>
@@ -40,4 +39,4 @@ const BaseCurrencyTab = () => {
   );
 };
 
-export default BaseCurrencyTab;
+export default memo(BaseCurrencyTab);

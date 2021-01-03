@@ -68,6 +68,7 @@ export const appSlice = createSlice({
     currencies: [
       { label: "Australian dollar", value: "aud", symbol: "$" },
       { label: "Brazilian real", value: "brl", symbol: "R$" },
+      { label: "British pound", value: "gbp", symbol: "£" },
       { label: "Bulgarian lev", value: "bgn", symbol: "лв" },
       { label: "Canadian dollar", value: "cad", symbol: "$" },
       { label: "Chinese yuan renminbi", value: "cny", symbol: "¥" },
@@ -86,7 +87,6 @@ export const appSlice = createSlice({
       { label: "Mexican peso", value: "mxn", symbol: "Mex$" },
       { label: "New Zealand dollar", value: "nzd", symbol: "$" },
       { label: "Philippine peso", value: "php", symbol: "₱" },
-      { label: "Pound sterling", value: "gbp", symbol: "£" },
       { label: "Romanian leu", value: "ron", symbol: "lei" },
       { label: "Russian rouble", value: "rub", symbol: "Р" },
       { label: "Swedish krona", value: "sek", symbol: "kr" },

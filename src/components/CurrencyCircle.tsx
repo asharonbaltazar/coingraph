@@ -1,3 +1,5 @@
+import { memo } from "react";
+
 interface IProps {
   currencyValue: string;
   color: string;
@@ -14,4 +16,4 @@ const CurrencyCircle = ({ currencyValue, color }: IProps) => {
   );
 };
 
-export default CurrencyCircle;
+export default memo(CurrencyCircle);

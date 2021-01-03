@@ -9,9 +9,11 @@ import Loader from "./components/Loader";
 
 const App = () => {
   const dispatch = useAppDispatch();
-  const { baseCurrency, sidebar, menuView, loading } = useSelector(
-    (state: RootState) => state
-  );
+  const baseCurrency = useSelector((state: RootState) => state.baseCurrency);
+  const sidebar = useSelector((state: RootState) => state.sidebar);
+  const menuView = useSelector((state: RootState) => state.menuView);
+  const loading = useSelector((state: RootState) => state.loading);
+
   const styles = {
     graphWidth: sidebar ? "w-full lg:w-11/12" : "w-graph lg:w-full",
     overflow: menuView ? "overflow-x-hidden" : "w-graph",

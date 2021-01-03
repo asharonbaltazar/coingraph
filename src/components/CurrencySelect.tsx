@@ -4,17 +4,12 @@ import { useAppDispatch } from "../store";
 import Select, { ValueType } from "react-select";
 
 interface IProps {
-  methods: {
-    oldValue: { label: string; value: string; symbol: string };
-    dispatchMethod: ActionCreatorWithPayload<any, string>;
-  };
+  oldValue: { label: string; value: string; symbol: string };
+  dispatchMethod: ActionCreatorWithPayload<any, string>;
   data: { label: string; value: string; symbol: string }[];
 }
 
-const CurrencySelect = ({
-  methods: { oldValue, dispatchMethod },
-  data,
-}: IProps) => {
+const CurrencySelect = ({ oldValue, dispatchMethod, data }: IProps) => {
   const dispatch = useAppDispatch();
   useEffect(() => {
     const selectRefInEffect = selectRef.current;
@@ -34,7 +29,6 @@ const CurrencySelect = ({
 
   return (
     <Select
-      key={oldValue.value}
       ref={selectRef}
       placeholder={"Select a currency..."}
       value={oldValue}

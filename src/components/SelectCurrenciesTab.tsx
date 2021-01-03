@@ -1,3 +1,4 @@
+import { memo } from "react";
 import MenuItem from "./MenuItem";
 import DeleteButton from "./DeleteButton";
 import CurrencyCircle from "./CurrencyCircle";
@@ -37,10 +38,10 @@ const SelectCurrencies = () => {
       </h3>
       <div className="flex flex-col justify-between">
         <>
-          {addedCurrencies.map((element, index) => (
+          {addedCurrencies.map((element) => (
             <div
               className="relative group flex md:inline-block items-center"
-              key={index}
+              key={element.value}
             >
               <MenuItem labelValue={element.label ?? ""}>
                 <CurrencyCircle
@@ -48,11 +49,8 @@ const SelectCurrencies = () => {
                   color={element.color}
                 />
                 <CurrencySelect
-                  key={element.value}
-                  methods={{
-                    oldValue: element,
-                    dispatchMethod: changeAddedCurrencyValue,
-                  }}
+                  oldValue={element}
+                  dispatchMethod={changeAddedCurrencyValue}
                   data={filteredCurrencies}
                 />
               </MenuItem>
@@ -70,4 +68,4 @@ const SelectCurrencies = () => {
   );
 };
 
-export default SelectCurrencies;
+export default memo(SelectCurrencies);

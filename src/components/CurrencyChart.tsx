@@ -1,6 +1,6 @@
 import { ResponsiveLine } from "@nivo/line";
 import dayjs from "dayjs";
-import { useMemo } from "react";
+import { memo, useMemo } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../store";
 
@@ -79,10 +79,9 @@ const CurrencyChart = () => {
       colors={colors}
       lineWidth={3}
       enablePoints={false}
-      useMesh={true}
       animate={true}
     />
   );
 };
 
-export default CurrencyChart;
+export default memo(CurrencyChart);
