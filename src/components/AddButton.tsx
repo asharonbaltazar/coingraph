@@ -3,22 +3,17 @@ import { useSelector } from "react-redux";
 import { addCurrencyToGraph } from "../slices/appSlice";
 import { RootState, useAppDispatch } from "../store";
 
-interface IProps {
-  menuWidth: boolean;
-}
-
-const AddButton = memo(({ menuWidth }: IProps) => {
+const AddButton = () => {
   const dispatch = useAppDispatch();
-  const addCurrency = () => {
-    dispatch(addCurrencyToGraph());
-  };
-
-  // Conditional styling
-  const conditionalStyling = menuWidth ? "justify-between" : "justify-center";
+  const menuWidth = useSelector((state: RootState) => state.menuView);
   // Disable button upon selecting all currencies
   const { currencies, addedCurrencies } = useSelector(
     (state: RootState) => state
   );
+
+  // Conditional styling
+  const conditionalStyling = menuWidth ? "justify-between" : "justify-center";
+
   const disabled = currencies.length === addedCurrencies.length ? true : false;
 
   return (
@@ -27,7 +22,7 @@ const AddButton = memo(({ menuWidth }: IProps) => {
         className={`w-full flex items-center ${conditionalStyling} disabled:opacity-50 disabled:cursor-default bg-indigo-400 px-2 py-4 rounded-xl focus:outline-none group focus:ring ring-indigo-400 ring-offset-2 ring-offset-gray-800 ${
           disabled ? "" : "md:hover:bg-opacity-80"
         }`}
-        onClick={() => !disabled && addCurrency()}
+        onClick={() => !disabled && dispatch(addCurrencyToGraph())}
         disabled={disabled}
       >
         <div className="h-10 w-10 text-xs px-2 font-bold rounded-full flex items-center justify-center bg-gray-800">
@@ -54,6 +49,6 @@ const AddButton = memo(({ menuWidth }: IProps) => {
       </button>
     </div>
   );
-});
+};
 
-export default AddButton;
+export default memo(AddButton);

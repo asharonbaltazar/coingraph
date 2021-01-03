@@ -5,12 +5,11 @@ import { useSelector } from "react-redux";
 import { RootState } from "../store";
 import { changeBaseCurrencyValue } from "../slices/appSlice";
 
-interface IProps {
-  menuWidth: boolean;
-}
+const BaseCurrencyTab = () => {
+  const currencies = useSelector((state: RootState) => state.currencies);
+  const baseCurrency = useSelector((state: RootState) => state.baseCurrency);
+  const menuWidth = useSelector((state: RootState) => state.menuView);
 
-const BaseCurrencyTab = ({ menuWidth }: IProps) => {
-  const { currencies, baseCurrency } = useSelector((state: RootState) => state);
   // Conditional styling
   const conditionalStyling = menuWidth ? "" : "text-center";
 

@@ -9,17 +9,15 @@ import {
   deleteValueFromAddedCurrency,
 } from "../slices/appSlice";
 
-interface IProps {
-  menuWidth: boolean;
-}
-
-const SelectCurrencies = ({ menuWidth }: IProps) => {
-  const { addedCurrencies, currencies } = useSelector(
-    (state: RootState) => state
+const SelectCurrencies = () => {
+  const currencies = useSelector((state: RootState) => state.currencies);
+  const addedCurrencies = useSelector(
+    (state: RootState) => state.addedCurrencies
   );
+  const menuWidth = useSelector((state: RootState) => state.menuView);
+
   // Conditional styling
   const conditionalStyling = menuWidth ? "" : "text-center";
-
   // Filtered dropdown based on amount of element in addedCurrencies
   const filteredCurrencies = currencies.filter((currency) =>
     addedCurrencies.every(

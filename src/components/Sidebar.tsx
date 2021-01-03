@@ -5,7 +5,7 @@ import AddButton from "./AddButton";
 import { useSelector } from "react-redux";
 import { RootState } from "../store";
 
-const Sidebar = memo(() => {
+const Sidebar = () => {
   const menuWidth = useSelector((state: RootState) => state.menuView);
 
   const open = menuWidth
@@ -17,12 +17,12 @@ const Sidebar = memo(() => {
       className={`h-full pt-12 pb-2 relative flex flex-col flex-shrink-0 justify-between ${open} lg:relative bg-gray-800 z-20`}
     >
       <div className="h-full overflow-x-hidden px-4">
-        <BaseCurrencyTab menuWidth={menuWidth} />
-        <SelectCurrenciesTab menuWidth={menuWidth} />
+        <BaseCurrencyTab />
+        <SelectCurrenciesTab />
       </div>
-      <AddButton menuWidth={menuWidth} />
+      <AddButton />
     </div>
   );
-});
+};
 
-export default Sidebar;
+export default memo(Sidebar);

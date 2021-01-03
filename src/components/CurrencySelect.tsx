@@ -34,6 +34,7 @@ const CurrencySelect = ({
 
   return (
     <Select
+      key={oldValue.value}
       ref={selectRef}
       placeholder={"Select a currency..."}
       value={oldValue}

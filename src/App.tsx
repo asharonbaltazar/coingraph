@@ -5,10 +5,11 @@ import { useSelector } from "react-redux";
 import { getCurrencyRates } from "./slices/appSlice";
 import { RootState, useAppDispatch } from "./store";
 import CurrencyChart from "./components/CurrencyChart";
+import Loader from "./components/Loader";
 
 const App = () => {
   const dispatch = useAppDispatch();
-  const { baseCurrency, sidebar, menuView } = useSelector(
+  const { baseCurrency, sidebar, menuView, loading } = useSelector(
     (state: RootState) => state
   );
   const styles = {
@@ -24,8 +25,9 @@ const App = () => {
     <div className={`h-full lg:w-screen flex relative ${styles.overflow} `}>
       <Nav />
       {sidebar && <Sidebar />}
-      <div className={`${styles.graphWidth} lg:py-4 pl-4`}>
+      <div className={`${styles.graphWidth} lg:py-4 pl-4 relative`}>
         <CurrencyChart />
+        {loading && <Loader />}
       </div>
     </div>
   );
