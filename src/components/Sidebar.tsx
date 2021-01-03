@@ -2,6 +2,7 @@ import { memo } from "react";
 import BaseCurrencyTab from "./BaseCurrencyTab";
 import SelectCurrenciesTab from "./SelectCurrenciesTab";
 import AddButton from "./AddButton";
+import CalendarButton from "./CalendarButton";
 import { useSelector } from "react-redux";
 import { RootState } from "../store";
 
@@ -20,6 +21,7 @@ const Sidebar = () => {
         <BaseCurrencyTab />
         <SelectCurrenciesTab />
       </div>
+      <CalendarButton />
       <AddButton />
     </div>
   );
