@@ -15,14 +15,16 @@ const Sidebar = () => {
 
   return (
     <div
-      className={`h-full pt-12 pb-2 relative flex flex-col flex-shrink-0 justify-between ${open} lg:relative bg-gray-800 z-20`}
+      className={`h-full pt-12 pb-2 relative flex flex-col flex-shrink-0 justify-between ${open} lg:relative bg-gray-800`}
     >
       <div className="h-full overflow-x-hidden px-4">
         <BaseCurrencyTab />
         <SelectCurrenciesTab />
       </div>
-      <CalendarButton />
-      <AddButton />
+      <div className="relative">
+        <AddButton />
+        <CalendarButton />
+      </div>
     </div>
   );
 };

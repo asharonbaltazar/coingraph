@@ -5,6 +5,7 @@
   "dependencies": {
     "@nivo/core": "^0.67.0",
     "@nivo/line": "^0.67.0",
+    "@popperjs/core": "^2.6.0",
     "@reduxjs/toolkit": "^1.5.0",
     "@testing-library/jest-dom": "^5.11.6",
     "@testing-library/react": "^11.2.2",
@@ -24,6 +25,8 @@
     "randomcolor": "^0.6.2",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
+    "react-modal": "^3.12.1",
+    "react-popper": "^2.2.4",
     "react-redux": "^7.2.2",
     "react-scripts": "4.0.1",
     "react-select": "^3.1.1",
@@ -59,6 +62,7 @@
   },
   "devDependencies": {
     "@types/randomcolor": "^0.5.5",
+    "@types/react-modal": "^3.10.6",
     "@types/react-redux": "^7.1.14",
     "@types/react-select": "^3.0.28"
   }

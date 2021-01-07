@@ -1,28 +1,49 @@
+import { useState } from "react";
 import BottomButton from "./BottomButton";
+import DateRangePopout from "./DateRangePopout";
+import { Calendar } from "./Icons";
+import { usePopper } from "react-popper";
+import { useSelector } from "react-redux";
+import { RootState } from "../store";
 
 const CalendarButton = () => {
-  const Icon = () => (
-    <svg
-      className="w-6 h-6 text-white"
-      fill="none"
-      stroke="currentColor"
-      viewBox="0 0 24 24"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth={2}
-        d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-      />
-    </svg>
-  );
+  const menuView = useSelector((state: RootState) => state.menuView);
+  const [popup, setPopup] = useState(false);
+
+  // Popper stuff
+  const [referenceElement, setReferenceElement] = useState(null);
+  const [popperElement, setPopperElement] = useState(null);
+  const { styles, attributes } = usePopper(referenceElement, popperElement, {
+    modifiers: [
+      {
+        name: "offset",
+        options: {
+          offset: [menuView ? 0 : 20, -40],
+        },
+      },
+    ],
+    placement: "bottom",
+    strategy: "absolute",
+  });
+
   return (
-    <BottomButton
-      buttonTitle={"Choose a range of dates"}
-      Icon={<Icon />}
-      onClickMethod={() => {}}
-    />
+    <>
+      <DateRangePopout
+        ref={setPopperElement}
+        {...attributes.props}
+        style={styles.popper}
+        popup={popup}
+        setPopup={setPopup}
+      />
+
+      <BottomButton
+        buttonTitle={"Choose a range of dates"}
+        Icon={<Calendar />}
+        onClickMethod={() => setPopup((prevState) => (prevState = !prevState))}
+        ref={setReferenceElement}
+        additionalStyling={popup ? "bg-opacity-80" : ""}
+      />
+    </>
   );
 };
 
