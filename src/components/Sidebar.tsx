@@ -7,7 +7,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../store";
 
 const Sidebar = () => {
-  const menuWidth = useSelector((state: RootState) => state.menuView);
+  const menuWidth = useSelector((state: RootState) => state.appSlice.menuView);
 
   const open = menuWidth
     ? "w-screen absolute lg:w-3/12 2xl:w-2/12 lg:relative"

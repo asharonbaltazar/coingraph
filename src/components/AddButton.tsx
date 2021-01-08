@@ -9,7 +9,7 @@ const AddButton = () => {
   const dispatch = useAppDispatch();
   // Disable button upon selecting all currencies
   const { currencies, addedCurrencies } = useSelector(
-    (state: RootState) => state
+    (state: RootState) => state.appSlice
   );
   const disabled = currencies.length === addedCurrencies.length ? true : false;
 

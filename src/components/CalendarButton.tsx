@@ -7,7 +7,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../store";
 
 const CalendarButton = () => {
-  const menuView = useSelector((state: RootState) => state.menuView);
+  const menuView = useSelector((state: RootState) => state.appSlice.menuView);
   const [popup, setPopup] = useState(false);
 
   // Popper stuff

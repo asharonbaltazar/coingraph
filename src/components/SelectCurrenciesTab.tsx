@@ -11,11 +11,13 @@ import {
 } from "../slices/appSlice";
 
 const SelectCurrencies = () => {
-  const currencies = useSelector((state: RootState) => state.currencies);
-  const addedCurrencies = useSelector(
-    (state: RootState) => state.addedCurrencies
+  const currencies = useSelector(
+    (state: RootState) => state.appSlice.currencies
   );
-  const menuWidth = useSelector((state: RootState) => state.menuView);
+  const addedCurrencies = useSelector(
+    (state: RootState) => state.appSlice.addedCurrencies
+  );
+  const menuWidth = useSelector((state: RootState) => state.appSlice.menuView);
 
   // Conditional styling
   const conditionalStyling = menuWidth ? "" : "text-center";

@@ -5,7 +5,9 @@ import { toggleMenuWidth, toggleSidebarDisplay } from "../slices/appSlice";
 import { RootState, useAppDispatch } from "../store";
 
 const Nav = memo(() => {
-  const { menuView, sidebar } = useSelector((state: RootState) => state);
+  const { menuView, sidebar } = useSelector(
+    (state: RootState) => state.appSlice
+  );
   const dispatch = useAppDispatch();
   const leftMargin = menuView
     ? "lg:w-48 flex items-center pl-5 items-center lg:justify-start"

@@ -21,7 +21,9 @@ const BottomButton = forwardRef(
     }: IProps,
     ref: any
   ) => {
-    const menuWidth = useSelector((state: RootState) => state.menuView);
+    const menuWidth = useSelector(
+      (state: RootState) => state.appSlice.menuView
+    );
     // Conditional styling based on menu width
     const conditionalStyling = menuWidth ? "justify-between" : "justify-center";
     return (

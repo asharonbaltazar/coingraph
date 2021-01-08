@@ -1,8 +1,5 @@
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import axios from "axios";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import randomColor from "randomcolor";
-import dayjs from "dayjs";
-import { RootState } from "../store";
 
 interface InitialState {
   currencies: { label: string; value: string; symbol: string }[];
@@ -13,54 +10,9 @@ interface InitialState {
     symbol: string;
     color: string;
   }[];
-  currencyApiData: {
-    date: string;
-    value: { [rateType: string]: number };
-  }[];
-
   menuView: boolean;
   sidebar: boolean;
-  loading: boolean;
 }
-
-interface ApiResponse {
-  base: string;
-  end_at: string;
-  rates: {
-    [date: string]: number;
-  };
-  start_at: string;
-}
-
-export const getCurrencyRates = createAsyncThunk<
-  any,
-  void,
-  { state: RootState }
->("app/getCurrencyRates", async (_, { getState, rejectWithValue }) => {
-  // Two variables for readibality: baseCurrency and today's date
-  const baseCurrency = getState().baseCurrency.value.toUpperCase();
-  const today = dayjs().format("YYYY-MM-DD");
-
-  const apiResponse = await axios.get<ApiResponse>(
-    `https://api.exchangeratesapi.io/history?start_at=2020-01-01&end_at=${today}&base=${baseCurrency}`
-  );
-
-  // Reject if API call goes awry
-  if (typeof apiResponse.data === "string")
-    return rejectWithValue("An error has occured. Please try again later");
-
-  // Conversion of API object response to array (which will retain just the API object key)
-  // First, sort the objects by date (converted into a regular JS date),
-  // Then, using the date, map the API object values onto the new array
-  const formattedRateData = Object.keys(apiResponse.data.rates)
-    .sort((a, b) => Number(dayjs(a).toDate()) - Number(dayjs(b).toDate()))
-    .map((element) => ({
-      date: element,
-      value: apiResponse.data.rates[element],
-    }));
-
-  return formattedRateData;
-});
 
 export const appSlice = createSlice({
   name: "appslice",
@@ -171,18 +123,6 @@ export const appSlice = createSlice({
         color,
       });
     },
-  },
-  extraReducers(builders) {
-    builders.addCase(getCurrencyRates.rejected, (state) => {
-      state.loading = false;
-    });
-    builders.addCase(getCurrencyRates.pending, (state) => {
-      state.loading = true;
-    });
-    builders.addCase(getCurrencyRates.fulfilled, (state, action) => {
-      state.currencyApiData = action.payload;
-      state.loading = false;
-    });
   },
 });
 

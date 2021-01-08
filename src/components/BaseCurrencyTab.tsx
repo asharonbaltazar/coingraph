@@ -7,9 +7,13 @@ import { RootState } from "../store";
 import { changeBaseCurrencyValue } from "../slices/appSlice";
 
 const BaseCurrencyTab = () => {
-  const currencies = useSelector((state: RootState) => state.currencies);
-  const baseCurrency = useSelector((state: RootState) => state.baseCurrency);
-  const menuWidth = useSelector((state: RootState) => state.menuView);
+  const currencies = useSelector(
+    (state: RootState) => state.appSlice.currencies
+  );
+  const baseCurrency = useSelector(
+    (state: RootState) => state.appSlice.baseCurrency
+  );
+  const menuWidth = useSelector((state: RootState) => state.appSlice.menuView);
 
   // Conditional styling
   const conditionalStyling = menuWidth ? "" : "text-center";

@@ -1,9 +1,17 @@
-import { configureStore } from "@reduxjs/toolkit";
+import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import { useDispatch } from "react-redux";
+import { currencyApi } from "./services/currency";
 import appSlice from "./slices/appSlice";
 
+const combinedReducers = combineReducers({
+  appSlice,
+  currencyApi: currencyApi.reducer,
+});
+
 export const store = configureStore({
-  reducer: appSlice,
+  reducer: combinedReducers,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(currencyApi.middleware),
 });
 
 // Type definitions

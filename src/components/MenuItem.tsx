@@ -9,7 +9,7 @@ interface IProps {
 
 const MenuItem = ({ labelValue, children }: IProps) => {
   const dispatch = useAppDispatch();
-  const menuView = useSelector((state: RootState) => state.menuView);
+  const menuView = useSelector((state: RootState) => state.appSlice.menuView);
   // Select render state
   const [selectDisplay, setSelectDisplay] = useState(false);
   useEffect(() => {
