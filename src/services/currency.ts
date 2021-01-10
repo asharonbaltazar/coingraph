@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery } from "@rtk-incubator/rtk-query";
 import dayjs from "dayjs";
+import { dateFormat } from "../utils/format";
 
 interface ApiResponse {
   base: string;
@@ -9,9 +10,7 @@ interface ApiResponse {
   };
   start_at: string;
 }
-
-const dateFormat = "YYYY-MM-DD";
-const startDate = dayjs().subtract(1, "year").format(dateFormat);
+const startDate = dayjs().subtract(5, "year").format(dateFormat);
 const today = dayjs().format(dateFormat);
 
 // Define a service using a base URL and expected endpoints
@@ -29,7 +28,6 @@ export const currencyApi = createApi({
         },
       }),
       transformResponse: (response: ApiResponse) => {
-        console.log(response);
         // Conversion of API object response to array (which will retain just the API object key)
         // First, sort the objects by date (converted into a regular JS date),
         // Then, using the date, map the API object values onto the new array

@@ -8,6 +8,7 @@ module.exports = {
   },
   variants: {
     extend: {
+      borderWidth: ["hover"],
       display: ["hover", "group-hover"],
       width: ["hover"],
       opacity: ["disabled"],

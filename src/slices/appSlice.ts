@@ -1,5 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import dayjs from "dayjs";
 import randomColor from "randomcolor";
+import { dateFormat } from "../utils/format";
 
 interface InitialState {
   currencies: { label: string; value: string; symbol: string }[];
@@ -12,6 +14,10 @@ interface InitialState {
   }[];
   menuView: boolean;
   sidebar: boolean;
+  date: {
+    start: string;
+    end: string;
+  };
 }
 
 export const appSlice = createSlice({
@@ -63,6 +69,10 @@ export const appSlice = createSlice({
     menuView: false,
     sidebar: true,
     loading: false,
+    date: {
+      start: dayjs().subtract(1, "year").format(dateFormat),
+      end: dayjs().format(dateFormat),
+    },
   } as InitialState,
   reducers: {
     toggleMenuWidth: (state, action: PayloadAction<boolean | undefined>) => {
@@ -123,6 +133,9 @@ export const appSlice = createSlice({
         color,
       });
     },
+    changeDate: (state, action) => {
+      state.date = action.payload;
+    },
   },
 });
 
@@ -133,5 +146,6 @@ export const {
   deleteValueFromAddedCurrency,
   changeBaseCurrencyValue,
   changeAddedCurrencyValue,
+  changeDate,
 } = appSlice.actions;
 export default appSlice.reducer;

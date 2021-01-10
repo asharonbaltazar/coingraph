@@ -5,17 +5,25 @@ import { memo, useMemo } from "react";
 import { useSelector } from "react-redux";
 import { useGetCurrencyRatesQuery } from "../services/currency";
 import { RootState } from "../store";
+import { dateFormat } from "../utils/format";
+
+interface Data {
+  x: string;
+  y: number;
+}
 
 const CurrencyChart = () => {
-  const { addedCurrencies, baseCurrency } = useSelector(
-    (state: RootState) => state.appSlice
-  );
+  const {
+    addedCurrencies,
+    baseCurrency: { value, label },
+  } = useSelector((state: RootState) => state.appSlice);
+  const { start, end } = useSelector((state: RootState) => state.appSlice.date);
   const {
     data: currencyApiData,
     refetch,
     isLoading,
     error,
-  } = useGetCurrencyRatesQuery(baseCurrency.value.toUpperCase());
+  } = useGetCurrencyRatesQuery(value.toUpperCase());
   // Define min/max for graph
   let min = 0;
   let max = 0;
@@ -24,21 +32,27 @@ const CurrencyChart = () => {
   const data = addedCurrencies.map(({ value, symbol }) => ({
     id: `${value.toUpperCase()} (${symbol}):`,
     data:
-      currencyApiData?.map(({ date, value: rateValue }) => {
-        const rateInArray = rateValue[value.toUpperCase()];
-        const rateRounded =
-          Math.round((rateInArray + Number.EPSILON) * 100) / 100;
+      currencyApiData?.reduce(
+        (acc: Array<Data>, { date, value: rateValue }) => {
+          if (dayjs(date).isAfter(start) && dayjs(date).isBefore(end)) {
+            const rateInArray = rateValue[value.toUpperCase()];
+            const rateRounded =
+              Math.round((rateInArray + Number.EPSILON) * 100) / 100;
 
-        // Calculate min/max of currencyApiData
-        if (min === 0) min = rateRounded;
-        min = Math.min(rateRounded, min);
-        max = Math.max(rateRounded, max);
+            // Calculate min/max of currencyApiData
+            if (min === 0) min = rateRounded;
+            min = Math.min(rateRounded, min);
+            max = Math.max(rateRounded, max);
 
-        return {
-          x: dayjs(date).format("YYYY-MM-DD") ?? null,
-          y: rateRounded ?? null,
-        };
-      }) ?? [],
+            acc.push({
+              x: dayjs(date).format(dateFormat) ?? null,
+              y: rateRounded ?? null,
+            });
+          }
+          return acc;
+        },
+        []
+      ) ?? [],
   }));
 
   const colors = useMemo(() => addedCurrencies.map(({ color }) => color), [
@@ -51,7 +65,7 @@ const CurrencyChart = () => {
         <ResponsiveLine
           data={data}
           margin={{ top: 50, right: 50, bottom: 50, left: 60 }}
-          curve={"natural"}
+          curve="natural"
           xScale={{
             type: "time",
             format: "%Y-%m-%d",
@@ -64,7 +78,6 @@ const CurrencyChart = () => {
             max: +(max * 1.2).toFixed(2),
             reverse: false,
           }}
-          yFormat={(value) => `${value}`}
           xFormat="time:%Y-%m-%d"
           enableArea={true}
           areaBaselineValue={+(min / 1.5).toFixed(2)}
@@ -73,7 +86,10 @@ const CurrencyChart = () => {
           axisRight={null}
           axisBottom={{
             format: "%b %d",
-            tickValues: +(data[0].data.length / 3).toFixed(0),
+            tickValues: +(
+              data[0].data.length /
+              (data[0].data.length / 30)
+            ).toFixed(0),
             tickRotation: -50,
           }}
           axisLeft={{
@@ -81,7 +97,7 @@ const CurrencyChart = () => {
             tickSize: 5,
             tickPadding: 0,
             tickRotation: 0,
-            legend: baseCurrency.label,
+            legend: label,
             legendOffset: -45,
             legendPosition: "middle",
           }}
