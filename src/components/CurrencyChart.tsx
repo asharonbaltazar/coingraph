@@ -18,9 +18,11 @@ const CurrencyChart = () => {
     baseCurrency: { value, label },
   } = useSelector((state: RootState) => state.appSlice);
   const { start, end } = useSelector((state: RootState) => state.appSlice.date);
+  // RTK Query variables and statuses
   const {
     data: currencyApiData,
     refetch,
+    isFetching,
     isLoading,
     error,
   } = useGetCurrencyRatesQuery(value.toUpperCase());
@@ -59,6 +61,8 @@ const CurrencyChart = () => {
     addedCurrencies,
   ]);
 
+  console.log(data[0].data.length);
+
   return (
     <>
       {!error ? (
@@ -86,10 +90,7 @@ const CurrencyChart = () => {
           axisRight={null}
           axisBottom={{
             format: "%b %d",
-            tickValues: +(
-              data[0].data.length /
-              (data[0].data.length / 30)
-            ).toFixed(0),
+            tickValues: +(data[0].data.length / 11).toFixed(),
             tickRotation: -50,
           }}
           axisLeft={{
@@ -123,7 +124,7 @@ const CurrencyChart = () => {
           </div>
         </div>
       )}
-      {isLoading && <Loader />}
+      {(isFetching || isLoading) && <Loader />}
     </>
   );
 };

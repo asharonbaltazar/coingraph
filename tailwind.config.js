@@ -2,7 +2,7 @@ module.exports = {
   theme: {
     extend: {
       width: {
-        graph: "300rem",
+        graph: "calc(100vw * 3)",
       },
     },
   },

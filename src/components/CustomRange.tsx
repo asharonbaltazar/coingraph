@@ -41,7 +41,7 @@ const CustomRange = ({ date: { start, end }, setDate }: IProps) => {
     <div className="flex flex-col justify-center px-4 pb-6 pt-4">
       <label className="text-base text-gray-300">Starting: </label>
       <DateInput
-        min={dayjs("2000-01-01").format(dateFormat)}
+        min={dayjs().subtract(10, "year").format(dateFormat)}
         max={dayjs(end).subtract(1, "day").format(dateFormat)}
         value={start}
         onChange={handleFirstSecondDateChange}
@@ -49,7 +49,7 @@ const CustomRange = ({ date: { start, end }, setDate }: IProps) => {
       <div className="mt-6">
         <label className="text-base text-gray-300">Ending: </label>
         <DateInput
-          min={dayjs().subtract(5, "year").format(dateFormat)}
+          min={dayjs().subtract(10, "year").format(dateFormat)}
           max={dayjs().format(dateFormat)}
           value={end}
           onChange={handleSecondDateChange}

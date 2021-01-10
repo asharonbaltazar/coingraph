@@ -76,7 +76,7 @@ const DateRangePopout = forwardRef(
         }}
       >
         <form
-          className="lg:h-auto lg:w-80 py-4 flex flex-col justify-between items-center bg-gray-700 border-4 border-indigo-400 shadow-2xl rounded-lg z-30"
+          className="lg:h-auto w-80 py-4 flex flex-col justify-between items-center bg-gray-700 border-4 border-indigo-400 shadow-2xl rounded-lg z-30"
           onSubmit={(event) => submitDateChange(event)}
           ref={ref}
           style={style}
@@ -89,7 +89,7 @@ const DateRangePopout = forwardRef(
               <button
                 className={`w-full py-3 ${
                   toggle ? "rounded-t-lg bg-gray-600" : "text-gray-400"
-                } focus:outline-none`}
+                } focus:outline-none focus:ring-1 ring-gray-500`}
                 type="button"
                 onClick={() => setToggle(true)}
               >
@@ -98,7 +98,7 @@ const DateRangePopout = forwardRef(
               <button
                 className={`w-full py-3 ${
                   toggle ? "text-gray-400" : "rounded-t-lg bg-gray-600"
-                } focus:outline-none`}
+                } focus:outline-none focus:ring-1 ring-gray-500`}
                 type="button"
                 onClick={() => setToggle(false)}
               >

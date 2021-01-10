@@ -10,7 +10,7 @@ interface ApiResponse {
   };
   start_at: string;
 }
-const startDate = dayjs().subtract(5, "year").format(dateFormat);
+const startDate = dayjs().subtract(10, "year").format(dateFormat);
 const today = dayjs().format(dateFormat);
 
 // Define a service using a base URL and expected endpoints

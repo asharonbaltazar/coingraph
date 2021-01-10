@@ -29,7 +29,7 @@ const MenuItem = ({ labelValue, children }: IProps) => {
 
   return (
     <button
-      className={`w-full flex items-center ${conditionalStyling} my-1 px-2 py-4 rounded-xl md:hover:bg-gray-700 focus:outline-none focus:ring ring-indigo-400`}
+      className={`w-full flex items-center ${conditionalStyling} my-1 px-2 py-4 rounded-xl lg:hover:bg-gray-700 focus:outline-none focus:ring ring-indigo-400`}
       onClick={() => renderSelect()}
     >
       {reactChildren[0]}
